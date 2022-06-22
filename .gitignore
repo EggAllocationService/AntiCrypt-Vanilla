@@ -1,0 +1,5 @@
+build/
+libs/
+gradle/
+logs/
+testing/

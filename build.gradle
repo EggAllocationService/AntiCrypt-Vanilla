@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group 'io.egg'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    shadow 'com.google.code.gson:gson:2.9.0'
+    shadow "com.google.guava:guava:31.1-jre"
+    // Version of ASM that fixes a few bugs i dislike. You can replace this with a refrence to the latest version of ASM if you wish
+    shadow files('libs/asm.jar')
+    // Bundled minecraft jar launcher, used to get a refrence to it's URLClassLoader
+    implementation files('libs/bundled.jar')
+}
+
+test {
+    useJUnitPlatform()
+}
+shadowJar {
+    configurations = [project.configurations.shadow]
+}
+jar {
+    manifest {
+        attributes('Premain-Class': 'io.egg.anticrypt.AgentMain')
+        attributes('Can-Redefine-Classes': 'true')
+    }
+}
